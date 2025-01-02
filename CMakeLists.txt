@@ -16,13 +16,20 @@ set(3rdParty_DIR "${PROJECT_SOURCE_DIR}/3rdParty/")
 set(CMAKE_PREFIX_PATH "D:/soft/dev/Qt/6.7.3/msvc2019_64")
 MESSAGE(STATUS "CMAKE_PREFIX_PATH ${CMAKE_PREFIX_PATH}")
 
+#zstd
 include_directories("${3rdParty_DIR}/zstd-v1.5.6/include")
-find_library(zstd_lib NAMES zstd_static PATHS "${3rdParty_DIR}/zstd-v1.5.6/lib")
-MESSAGE(STATUS "zstd_lib ${zstd_lib}")
+find_library(zstd_static_lib NAMES zstd_static PATHS "${3rdParty_DIR}/zstd-v1.5.6/lib")
+MESSAGE(STATUS "zstd_static_lib ${zstd_static_lib}")
 #target_link_libraries(${PROJECT_NAME} ${zstd_lib})
-link_libraries(${zstd_lib})
+link_libraries(${zstd_static_lib})
 
+#zeromq
+include_directories("${3rdParty_DIR}/zeromq-4.3.5/include")
+find_library(zmq_static_lib NAMES libzmq-v142-mt-s-4_3_5 PATHS "${3rdParty_DIR}/zeromq-4.3.5/lib")
+MESSAGE(STATUS "zmq_static_lib ${zmq_static_lib}")
+link_libraries(${zmq_static_lib})
 
+#utils inc
 include_directories("${PROJECT_SOURCE_DIR}/Utils")
 
 set(CMAKE_AUTOMOC ON)
