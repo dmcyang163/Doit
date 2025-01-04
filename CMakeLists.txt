@@ -29,8 +29,15 @@ find_library(zmq_static_lib NAMES libzmq-v142-mt-s-4_3_5 PATHS "${3rdParty_DIR}/
 MESSAGE(STATUS "zmq_static_lib ${zmq_static_lib}")
 link_libraries(${zmq_static_lib})
 
+#opencv
+set(OpenCV_DIR "D:/soft/dev/opencv-4.10.0")
+find_package(OpenCV REQUIRED)
+# 包含 OpenCV 头文件目录
+include_directories(${OpenCV_INCLUDE_DIRS})
+
 #utils inc
 include_directories("${PROJECT_SOURCE_DIR}/Utils")
+
 
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTOUIC ON)
@@ -55,7 +62,7 @@ source_group("Ui_" FILES ${WRAP_FILES})
 source_group("Utils" FILES ${UTILS_SRC_FILES} ${UTILS_HEAD_FILES})
 
 add_executable(${PROJECT_NAME} WIN32 ${SRC_FILES} ${HEAD_FILES} ${UTILS_SRC_FILES} ${UTILS_HEAD_FILES} ${RCC_FILES} ${WRAP_FILES})
-target_link_libraries(${PROJECT_NAME} PUBLIC Qt6::Core Qt6::Gui Qt6::Widgets)
+target_link_libraries(${PROJECT_NAME} PUBLIC Qt6::Core Qt6::Gui Qt6::Widgets ${OpenCV_LIBS})
 
 
 if(WIN32)
