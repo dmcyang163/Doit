@@ -1,4 +1,6 @@
 ﻿#include "QDlgDoit.h"
+#include "CTickCounter.h"
+
 
 QDlgDoit::QDlgDoit(QWidget *parent)
     : QMainWindow(parent)
@@ -13,12 +15,8 @@ QDlgDoit::QDlgDoit(QWidget *parent)
 	net = cv::dnn::readNetFromCaffe(prototxtPath, modelPath);
 
 	// 启用 OpenCL 加速
-	net.setPreferableBackend(cv::dnn::DNN_BACKEND_DEFAULT);
-	net.setPreferableTarget(cv::dnn::DNN_TARGET_OPENCL);
-
-	//label = new QLabel(this);
-	//label->setGeometry(0, 0, 640, 480);
-	//setCentralWidget(label);
+	//net.setPreferableBackend(cv::dnn::DNN_BACKEND_DEFAULT);
+	//net.setPreferableTarget(cv::dnn::DNN_TARGET_OPENCL);
 
 
 	timer = new QTimer(this);
@@ -41,6 +39,8 @@ QDlgDoit::~QDlgDoit()
 
 void QDlgDoit::updateFrame()
 {
+	CTickCounter tc;
+
 	cv::Mat frame;
 	cap >> frame;
 
