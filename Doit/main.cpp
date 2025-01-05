@@ -1,7 +1,7 @@
 #include "QDlgDoit.h"
 #include <QtWidgets/QApplication>
 #include "czip.h"
-
+#include "CZmqHelper.h"
 
 int main(int argc, char *argv[])
 {
@@ -13,7 +13,8 @@ int main(int argc, char *argv[])
     CZip zip;
     zip.test();
 
-
+    CZmqHelper zmq;
+  
 
     return a.exec();
 }

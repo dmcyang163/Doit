@@ -3,7 +3,7 @@
 set root_path=%cd%
 echo %cd%
 
-set path=%path%;D:\soft\dev\Qt\6.7.3\msvc2019_64\bin;D:\soft\dev\opencv-4.10.0\x64\vc16\bin;
+set path=%path%;D:\soft\dev\Qt\6.7.3\msvc2019_64\bin;D:\soft\dev\opencv-4.10.0\x64\vc16\bin;D:\young\qts\Doit\3rdParty\zeromq-4.3.5\bin;
 echo %path%
 
 

@@ -25,9 +25,15 @@ link_libraries(${zstd_static_lib})
 
 #zeromq
 include_directories("${3rdParty_DIR}/zeromq-4.3.5/include")
-find_library(zmq_static_lib NAMES libzmq-v142-mt-s-4_3_5 PATHS "${3rdParty_DIR}/zeromq-4.3.5/lib")
+find_library(zmq_static_lib NAMES libzmq-v142-mt-4_3_5 PATHS "${3rdParty_DIR}/zeromq-4.3.5/lib")
 MESSAGE(STATUS "zmq_static_lib ${zmq_static_lib}")
-link_libraries(${zmq_static_lib})
+#link_libraries(${zmq_static_lib})
+
+
+# 链接 ZeroMQ 库
+#target_link_libraries(my_zmq_app ${ZMQ_LIBRARY})
+
+
 
 #opencv
 set(OpenCV_DIR "D:/soft/dev/opencv-4.10.0")
@@ -35,8 +41,9 @@ find_package(OpenCV REQUIRED)
 # 包含 OpenCV 头文件目录
 include_directories(${OpenCV_INCLUDE_DIRS})
 
-#utils inc
-include_directories("${PROJECT_SOURCE_DIR}/utils" "${PROJECT_SOURCE_DIR}/algo")
+#inc
+include_directories("${PROJECT_SOURCE_DIR}/utils" "${PROJECT_SOURCE_DIR}/algo" "${PROJECT_SOURCE_DIR}/net")
+
 
 
 
@@ -47,7 +54,8 @@ set(RCC_FILES ./${PROJECT_NAME}/QDlgDoit.qrc)
 
 find_package(Qt6 REQUIRED COMPONENTS Core Widgets Gui)
 
-#源代码文件
+file(GLOB NET_SRC_FILES "./net/*.cpp")
+file(GLOB NET_H_FILES "./net/*.h")
 file(GLOB ALGO_SRC_FILES "./algo/*.cpp")
 file(GLOB ALGO_H_FILES "./algo/*.h")
 file(GLOB UTILS_SRC_FILES "./utils/*.cpp")
@@ -64,11 +72,12 @@ source_group("Ui" FILES ${UI_FILES})
 source_group("Ui_" FILES ${WRAP_FILES})
 source_group("Utils" FILES ${UTILS_SRC_FILES} ${UTILS_H_FILES})
 source_group("Algo" FILES ${ALGO_SRC_FILES} ${ALGO_H_FILES})
+source_group("Net" FILES ${NET_SRC_FILES} ${NET_H_FILES})
 
 
 
-add_executable(${PROJECT_NAME} WIN32 ${SRC_FILES} ${H_FILES} ${ALGO_SRC_FILES} ${ALGO_H_FILES} ${UTILS_SRC_FILES} ${UTILS_H_FILES} ${RCC_FILES} ${WRAP_FILES})
-target_link_libraries(${PROJECT_NAME} PUBLIC Qt6::Core Qt6::Gui Qt6::Widgets ${OpenCV_LIBS})
+add_executable(${PROJECT_NAME} WIN32 ${SRC_FILES} ${H_FILES} ${ALGO_SRC_FILES} ${ALGO_H_FILES} ${NET_SRC_FILES} ${NET_H_FILES} ${UTILS_SRC_FILES} ${UTILS_H_FILES} ${RCC_FILES} ${WRAP_FILES})
+target_link_libraries(${PROJECT_NAME} PUBLIC Qt6::Core Qt6::Gui Qt6::Widgets ${OpenCV_LIBS} ${zmq_static_lib})
 
 
 if(WIN32)
