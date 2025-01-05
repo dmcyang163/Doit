@@ -36,7 +36,8 @@ find_package(OpenCV REQUIRED)
 include_directories(${OpenCV_INCLUDE_DIRS})
 
 #utils inc
-include_directories("${PROJECT_SOURCE_DIR}/Utils")
+include_directories("${PROJECT_SOURCE_DIR}/utils" "${PROJECT_SOURCE_DIR}/algo")
+
 
 
 set(CMAKE_AUTOMOC ON)
@@ -47,10 +48,12 @@ set(RCC_FILES ./${PROJECT_NAME}/QDlgDoit.qrc)
 find_package(Qt6 REQUIRED COMPONENTS Core Widgets Gui)
 
 #源代码文件
-file(GLOB UTILS_SRC_FILES "./Utils/*.cpp")
-file(GLOB UTILS_HEAD_FILES "./Utils/*.h")
+file(GLOB ALGO_SRC_FILES "./algo/*.cpp")
+file(GLOB ALGO_H_FILES "./algo/*.h")
+file(GLOB UTILS_SRC_FILES "./utils/*.cpp")
+file(GLOB UTILS_H_FILES "./utils/*.h")
 file(GLOB SRC_FILES "./${PROJECT_NAME}/*.cpp")
-file(GLOB HEAD_FILES "./${PROJECT_NAME}/*.h")
+file(GLOB H_FILES "./${PROJECT_NAME}/*.h")
 file(GLOB UI_FILES "./${PROJECT_NAME}/*.ui")
 
 
@@ -59,9 +62,12 @@ qt6_wrap_ui(WRAP_FILES ${UI_FILES})
 #ui文件和生成文件整理在一个文件夹中
 source_group("Ui" FILES ${UI_FILES})
 source_group("Ui_" FILES ${WRAP_FILES})
-source_group("Utils" FILES ${UTILS_SRC_FILES} ${UTILS_HEAD_FILES})
+source_group("Utils" FILES ${UTILS_SRC_FILES} ${UTILS_H_FILES})
+source_group("Algo" FILES ${ALGO_SRC_FILES} ${ALGO_H_FILES})
 
-add_executable(${PROJECT_NAME} WIN32 ${SRC_FILES} ${HEAD_FILES} ${UTILS_SRC_FILES} ${UTILS_HEAD_FILES} ${RCC_FILES} ${WRAP_FILES})
+
+
+add_executable(${PROJECT_NAME} WIN32 ${SRC_FILES} ${H_FILES} ${ALGO_SRC_FILES} ${ALGO_H_FILES} ${UTILS_SRC_FILES} ${UTILS_H_FILES} ${RCC_FILES} ${WRAP_FILES})
 target_link_libraries(${PROJECT_NAME} PUBLIC Qt6::Core Qt6::Gui Qt6::Widgets ${OpenCV_LIBS})
 
 

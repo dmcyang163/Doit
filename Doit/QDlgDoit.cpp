@@ -9,7 +9,7 @@ QDlgDoit::QDlgDoit(QWidget *parent)
 
 
 	// 加载预训练的 SSD 人脸检测模型
-	std::string path = "D:/soft/dev/opencvs/opencv-4.10.0/samples/dnn/face_detector/";
+	std::string path = "D:/young/qts/Doit/algo/model/ssd/";
 	std::string prototxtPath = path + "deploy.prototxt";
 	std::string modelPath = path + "res10_300x300_ssd_iter_140000.caffemodel";
 	net = cv::dnn::readNetFromCaffe(prototxtPath, modelPath);
