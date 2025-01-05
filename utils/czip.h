@@ -4,14 +4,18 @@
 #include <iostream>
 #include <vector>
 
+
 class CZip
 {
 public:
     CZip();
 
-    void zstdZip();
-    static std::vector<unsigned char> compress(const std::vector<unsigned char>& input);
-    static std::vector<unsigned char> decompress(const std::vector<unsigned char>& input, size_t originalSize);
+    void test();
+
+    std::string zstd_compress(const std::string& input, int compression_level = 3);
+    std::string zstd_decompress(const std::string& input);
+    size_t zstd_compress_file(const std::string& input_file_path, const std::string& output_file_path, int compression_level = 3);
+    size_t zstd_decompress_file(const std::string& input_file_path, const std::string& output_file_path);
 };
 
 #endif // CZIP_H
