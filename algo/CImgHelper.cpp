@@ -71,6 +71,29 @@ cv::Mat CImgHelper::jpgString2mat(const std::string& jpegString) {
     return image;
 }
 
+// 将 cv::Mat 转换为 JPEG 格式并存储在内存中的函数
+std::vector<uchar> CImgHelper::mat2jpg(const cv::Mat& image, int quality/* = 90*/) {
+	std::vector<uchar> buffer;
+	std::vector<int> params;
+	params.push_back(cv::IMWRITE_JPEG_QUALITY);
+	params.push_back(quality); // JPEG 质量，范围 0-100
+	cv::imencode(".jpg", image, buffer, params);
+	return buffer;
+}
+
+// 从内存中的 JPEG 数据恢复 cv::Mat 的函数
+cv::Mat CImgHelper::jpg2mat(const std::vector<uchar>& buffer) {
+	cv::Mat image = cv::imdecode(buffer, cv::IMREAD_COLOR);
+	return image;
+}
+
+void CImgHelper::jpg2file(std::vector<uchar>& buffer, const std::string& outputFilePath)
+{
+	std::ofstream outfile(outputFilePath, std::ios::binary);
+	outfile.write(reinterpret_cast<char*>(buffer.data()), buffer.size());
+	outfile.close();
+}
+
 #if 0
 
 int main() {
