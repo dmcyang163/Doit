@@ -14,6 +14,7 @@ int main(int argc, char *argv[])
     zip.test();
 
     CZmqHelper zmq;
+    zmq.test();
   
 
     return a.exec();
