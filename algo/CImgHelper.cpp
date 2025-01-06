@@ -3,8 +3,8 @@
 
 
 
-bool CImgHelper::mat2jpgFile(cv::Mat& inputImage, const std::string& outputFilePath, int quality/* = 90*/) {
-    if (inputImage.empty())
+bool CImgHelper::mat2jpgFile(cv::Mat& inputImg, const std::string& ofPath, int quality/* = 90*/) {
+    if (inputImg.empty())
     {
         std::cerr << "输入图像为空，无法压缩。" << std::endl;
         return false;
@@ -16,17 +16,17 @@ bool CImgHelper::mat2jpgFile(cv::Mat& inputImage, const std::string& outputFileP
     params.push_back(quality);
 
     // 进行图像压缩
-    bool success = cv::imencode(".jpg", inputImage, buffer, params);
+    bool success = cv::imencode(".jpg", inputImg, buffer, params);
     if (!success)
     {
         std::cerr << "图像压缩失败。" << std::endl;
         return false;
     }
 
-    std::ofstream outfile(outputFilePath, std::ios::out | std::ios::binary);
+    std::ofstream outfile(ofPath, std::ios::out | std::ios::binary);
     if (!outfile)
     {
-        std::cerr << "无法打开输出文件: " << outputFilePath << std::endl;
+        std::cerr << "无法打开输出文件: " << ofPath << std::endl;
         return false;
     }
 
@@ -36,8 +36,8 @@ bool CImgHelper::mat2jpgFile(cv::Mat& inputImage, const std::string& outputFileP
     return true;
 }
 
-std::string CImgHelper::mat2jpgString(cv::Mat& inputImage, int quality/* = 90*/) {
-    if (inputImage.empty())
+std::string CImgHelper::mat2jpgStr(cv::Mat& inputImg, int quality/* = 90*/) {
+    if (inputImg.empty())
     {
         std::cerr << "输入图像为空，无法压缩。" << std::endl;
         return "";
@@ -49,7 +49,7 @@ std::string CImgHelper::mat2jpgString(cv::Mat& inputImage, int quality/* = 90*/)
     params.push_back(quality);
 
     // 进行图像压缩
-    bool success = cv::imencode(".jpg", inputImage, buffer, params);
+    bool success = cv::imencode(".jpg", inputImg, buffer, params);
     if (!success)
     {
         std::cerr << "图像压缩失败。" << std::endl;
@@ -60,8 +60,8 @@ std::string CImgHelper::mat2jpgString(cv::Mat& inputImage, int quality/* = 90*/)
     return std::string(buffer.begin(), buffer.end());
 }
 
-cv::Mat CImgHelper::jpgString2mat(const std::string& jpegString) {
-    std::vector<uchar> buffer(jpegString.begin(), jpegString.end());
+cv::Mat CImgHelper::jpgStr2mat(const std::string& jpgStr) {
+    std::vector<uchar> buffer(jpgStr.begin(), jpgStr.end());
     cv::Mat image = cv::imdecode(buffer, cv::IMREAD_COLOR);
     if (image.empty())
     {
@@ -71,13 +71,13 @@ cv::Mat CImgHelper::jpgString2mat(const std::string& jpegString) {
     return image;
 }
 
-void CImgHelper::jpgString2file(const std::string& jpegString, const std::string& outputFilePath)
+void CImgHelper::jpgStr2file(const std::string& jpgStr, const std::string& ofPath)
 {
-	std::ofstream outFile(outputFilePath, std::ios::binary);
+	std::ofstream outFile(ofPath, std::ios::binary);
 	if (!outFile.is_open())
-		std::cerr << "无法打开文件: " << outputFilePath << std::endl;
+		std::cerr << "无法打开文件: " << ofPath << std::endl;
 
-	outFile.write(jpegString.data(), jpegString.size());
+	outFile.write(jpgStr.data(), jpgStr.size());
 	outFile.close();
 }
 
