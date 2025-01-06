@@ -16,6 +16,9 @@ set(3rdParty_DIR "${PROJECT_SOURCE_DIR}/3rdParty/")
 set(CMAKE_PREFIX_PATH "D:/soft/dev/Qt/6.7.3/msvc2019_64")
 MESSAGE(STATUS "CMAKE_PREFIX_PATH ${CMAKE_PREFIX_PATH}")
 
+#nlohmann json
+include_directories("${3rdParty_DIR}/nlohmann-3.11.3")
+
 #zstd
 include_directories("${3rdParty_DIR}/zstd-v1.5.6/include")
 find_library(zstd_static_lib NAMES zstd_static PATHS "${3rdParty_DIR}/zstd-v1.5.6/lib")
