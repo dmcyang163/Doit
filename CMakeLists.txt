@@ -37,17 +37,16 @@ MESSAGE(STATUS "zmq_static_lib ${zmq_static_lib}")
 #target_link_libraries(my_zmq_app ${ZMQ_LIBRARY})
 
 
-
 #opencv
 set(OpenCV_DIR "D:/soft/dev/opencv-4.10.0")
 find_package(OpenCV REQUIRED)
 # 包含 OpenCV 头文件目录
 include_directories(${OpenCV_INCLUDE_DIRS})
 
+
+
 #inc
 include_directories("${PROJECT_SOURCE_DIR}/utils" "${PROJECT_SOURCE_DIR}/algo" "${PROJECT_SOURCE_DIR}/net")
-
-
 
 
 set(CMAKE_AUTOMOC ON)
@@ -79,8 +78,28 @@ source_group("Net" FILES ${NET_SRC_FILES} ${NET_H_FILES})
 
 
 
-add_executable(${PROJECT_NAME} WIN32 ${SRC_FILES} ${H_FILES} ${ALGO_SRC_FILES} ${ALGO_H_FILES} ${NET_SRC_FILES} ${NET_H_FILES} ${UTILS_SRC_FILES} ${UTILS_H_FILES} ${RCC_FILES} ${WRAP_FILES})
-target_link_libraries(${PROJECT_NAME} PUBLIC Qt6::Core Qt6::Gui Qt6::Widgets ${OpenCV_LIBS} ${zmq_static_lib})
+add_executable(${PROJECT_NAME} WIN32 ${SRC_FILES} ${H_FILES} 
+    ${ALGO_SRC_FILES} ${ALGO_H_FILES} 
+    ${NET_SRC_FILES} ${NET_H_FILES} 
+    ${UTILS_SRC_FILES} ${UTILS_H_FILES} 
+    ${RCC_FILES} ${WRAP_FILES})
+target_link_libraries(${PROJECT_NAME} Qt6::Core Qt6::Gui Qt6::Widgets 
+    ${OpenCV_LIBS} 
+    ${zmq_static_lib})
+
+
+#tcmalloc
+file(GLOB_RECURSE TCMALLOC_LIBS_DEBUG "${3rdParty_DIR}/tcmalloc-2.16/debug/*.lib")
+file(GLOB_RECURSE TCMALLOC_LIBS_RELEASE "${3rdParty_DIR}/tcmalloc-2.16/release/*.lib")
+
+foreach(name ${TCMALLOC_LIBS_DEBUG})
+    target_link_libraries(${PROJECT_NAME} debug ${name})
+endforeach(name)
+
+foreach(name ${TCMALLOC_LIBS_RELEASE})
+    target_link_libraries(${PROJECT_NAME} optimized ${name})
+endforeach(name)
+
 
 
 if(WIN32)

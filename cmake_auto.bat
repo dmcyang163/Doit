@@ -1,10 +1,21 @@
 @echo off
 
 set root_path=%cd%
-echo %cd%
+echo %root_path%
 
-set path=%path%;D:\soft\dev\Qt\6.7.3\msvc2019_64\bin;D:\soft\dev\opencv-4.10.0\x64\vc16\bin;D:\young\qts\Doit\3rdParty\zeromq-4.3.5\bin;
+
+
+set QT_PATH=D:\soft\dev\Qt\6.7.3\msvc2019_64\bin
+set OPENCV_PATH=D:\soft\dev\opencv-4.10.0\x64\vc16\bin
+
+set TCMALLOC_PATHD=%root_path%\3rdParty\tcmalloc-2.16\debug
+set TCMALLOC_PATH=%root_path%\3rdParty\tcmalloc-2.16\release
+set ZMQ=%root_path%\3rdParty\zeromq-4.3.5\bin
+
+set path=%path%;%QT_PATH%;%OPENCV_PATH%;%TCMALLOC_PATHD%;%TCMALLOC_PATH%;%ZMQ%
+
 echo %path%
+pause
 
 
 echo "---------step, cmake Doit"
