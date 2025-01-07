@@ -21,7 +21,7 @@ QDlgDoit::QDlgDoit(QWidget *parent)
 
 	timer = new QTimer(this);
 	connect(timer, &QTimer::timeout, this, &QDlgDoit::updateFrame);
-	timer->start(40);
+	//timer->start(40);
 
 
 	// 打开摄像头

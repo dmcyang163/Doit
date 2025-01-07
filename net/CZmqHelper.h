@@ -10,6 +10,7 @@ public:
 
 	void test();
 
+
 	void sendString(zmq::socket_t& socket, const std::string& str);
 	void receiveString(zmq::socket_t& socket, std::string& str);
 	void sendFile(zmq::socket_t& socket, const std::string& filePath);
@@ -17,5 +18,7 @@ public:
 
 private:
 	std::string readFileInChunks(const std::string& filePath, size_t chunkSize);
+	
+	std::string timeSuffix(std::string& filePath);
 };
 

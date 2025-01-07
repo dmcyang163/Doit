@@ -8,10 +8,21 @@
 #include <vector>
 #include <mutex>
 #include <atomic>
-
+#include <deque>
 //std::mutex mtx;
 std::atomic<bool> error_occurred(false);
 
+#include <filesystem>
+
+namespace fs = std::filesystem;
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <io.h>         
+#include <process.h>
+#include <fcntl.h>
+#include <assert.h>
 
 CZmqHelper::CZmqHelper()
 {
@@ -20,26 +31,9 @@ CZmqHelper::CZmqHelper()
 
 void CZmqHelper::test()
 {
-	std::string filePathToSend = "D:/young/qts/Doit/data/resized.jpg"; //WinSetupMon.log
-	std::string filePathToReceive = "D:/young/qts/Doit/data/resized_recv.jpg";
+	std::string filePathToSend = "D:/young/qts/Doit/data/resized.jpg"; //  WinSetupMon.log
+	std::string filePathToReceive = timeSuffix(filePathToSend); // resized_recv.jpg 
 
-#if 0
-
-	zmq::context_t context(1);
-	// 创建 ROUTER 套接字
-	zmq::socket_t router(context, ZMQ_ROUTER);
-	router.bind("tcp://*:5556");
-	// 创建 DEALER 套接字
-	zmq::socket_t dealer(context, ZMQ_DEALER);
-	dealer.connect("tcp://localhost:5556");
-
-	std::vector<std::thread> threads;
-	// 启动发送端线程
-	threads.emplace_back([&]() { sendFile(dealer, filePathToSend); });//static_cast<void*>(&dealer)
-	// 启动接收端线程
-	threads.emplace_back([&]() { receiveFile(router, filePathToReceive); });
-
-#endif
 
 #if 1
 
@@ -68,7 +62,6 @@ void CZmqHelper::test()
 		std::cerr << "文件传输过程中出现错误，请检查日志。" << std::endl;
 
 }
-
 
 void CZmqHelper::sendString(zmq::socket_t& socket, const std::string& str) {
 	zmq::message_t message(str.data(), str.size());
@@ -105,28 +98,9 @@ void CZmqHelper::receiveString(zmq::socket_t& socket, std::string& str) {
 void CZmqHelper::sendFile(zmq::socket_t& socket, const std::string& filePath) {
 	std::string fileContent = readFileInChunks(filePath, 4096);
 	sendString(socket, fileContent);
-#if 0
 
-
-	if (error_occurred)
-	{
-		return;
-	}
-	// 将文件内容存储在 zmq::message_t 中
-	zmq::message_t message(fileContent.data(), fileContent.size());
-	try
-	{
-		socket.send(message, zmq::send_flags::none);
-	}
-	catch (const zmq::error_t& e)
-	{
-		std::cerr << "发送文件时出错: " << e.what() << std::endl;
-		error_occurred = true;
-		return;
-	}
-#endif
 	// 发送结束标志
-	zmq::message_t endMessage("==END==", 3);
+	zmq::message_t endMessage("==END==", 7);
 	try
 	{
 		socket.send(endMessage, zmq::send_flags::none);
@@ -193,5 +167,28 @@ std::string CZmqHelper::readFileInChunks(const std::string& filePath, size_t chu
 	}
 	file.close();
 	return ss.str();
+}
+
+std::string CZmqHelper::timeSuffix(std::string& filePath)
+{
+	// 获取当前时间
+	auto now = std::chrono::system_clock::now();
+	auto in_time_t = std::chrono::system_clock::to_time_t(now);
+
+	// 将时间转换为字符串格式
+	std::stringstream ss;
+	ss << std::put_time(std::localtime(&in_time_t), "%Y%m%d_%H%M%S");
+	std::string timestamp = ss.str();
+
+	// 分离文件名和扩展名
+	fs::path path(filePath);
+	std::string stem = path.stem().string();
+	std::string extension = path.extension().string();
+
+	// 构建新的文件名
+	std::string newFileName = stem + "_" + timestamp + extension;
+
+	// 返回新的文件路径
+	return (path.parent_path() / newFileName).string();
 }
 
