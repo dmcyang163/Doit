@@ -30,7 +30,7 @@ link_libraries(${zstd_static_lib})
 include_directories("${3rdParty_DIR}/zeromq-4.3.5/include")
 find_library(zmq_static_lib NAMES libzmq-v142-mt-4_3_5 PATHS "${3rdParty_DIR}/zeromq-4.3.5/lib")
 MESSAGE(STATUS "zmq_static_lib ${zmq_static_lib}")
-#link_libraries(${zmq_static_lib})
+link_libraries(${zmq_static_lib})
 
 
 # 链接 ZeroMQ 库
@@ -85,7 +85,7 @@ add_executable(${PROJECT_NAME} WIN32 ${SRC_FILES} ${H_FILES}
     ${RCC_FILES} ${WRAP_FILES})
 target_link_libraries(${PROJECT_NAME} Qt6::Core Qt6::Gui Qt6::Widgets 
     ${OpenCV_LIBS} 
-    ${zmq_static_lib})
+    )
 
 
 #tcmalloc
