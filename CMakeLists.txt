@@ -27,14 +27,16 @@ MESSAGE(STATUS "zstd_static_lib ${zstd_static_lib}")
 link_libraries(${zstd_static_lib})
 
 #zeromq
+
 include_directories("${3rdParty_DIR}/zeromq-4.3.5/include")
-find_library(zmq_static_lib NAMES libzmq-v142-mt-4_3_5 PATHS "${3rdParty_DIR}/zeromq-4.3.5/lib")
-MESSAGE(STATUS "zmq_static_lib ${zmq_static_lib}")
-link_libraries(${zmq_static_lib})
+find_library(zmq_lib NAMES libzmq-v142-mt-4_3_5 PATHS "${3rdParty_DIR}/zeromq-4.3.5/lib")
+MESSAGE(STATUS "zmq_lib ${zmq_lib}")
+link_libraries(${zmq_lib})
 
+if(NOT zmq_lib)
+    message(FATAL_ERROR "ZeroMQ library not found")
+endif()
 
-# 链接 ZeroMQ 库
-#target_link_libraries(my_zmq_app ${ZMQ_LIBRARY})
 
 
 #opencv
@@ -83,9 +85,14 @@ add_executable(${PROJECT_NAME} WIN32 ${SRC_FILES} ${H_FILES}
     ${NET_SRC_FILES} ${NET_H_FILES} 
     ${UTILS_SRC_FILES} ${UTILS_H_FILES} 
     ${RCC_FILES} ${WRAP_FILES})
+
+# 设置链接器选项，排除冲突的库
+#set_target_properties(${PROJECT_NAME} PROPERTIES LINK_FLAGS "/NODEFAULTLIB:MSVCRT")
+
 target_link_libraries(${PROJECT_NAME} Qt6::Core Qt6::Gui Qt6::Widgets 
     ${OpenCV_LIBS} 
     )
+
 
 
 #tcmalloc

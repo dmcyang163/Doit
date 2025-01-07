@@ -15,7 +15,7 @@ set ZMQ=%root_path%\3rdParty\zeromq-4.3.5\bin
 set path=%path%;%QT_PATH%;%OPENCV_PATH%;%TCMALLOC_PATHD%;%TCMALLOC_PATH%;%ZMQ%
 
 echo %path%
-pause
+
 
 
 echo "---------step, cmake Doit"
