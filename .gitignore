@@ -56,3 +56,6 @@ compile_commands.json
 
 /build/
 *.exe
+# 不排除 3rdParty 目录及其内容
+!/3rdParty/
+!/3rdParty/**
