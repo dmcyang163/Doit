@@ -8,6 +8,9 @@
 #include <QLabel>
 #include <QTimer>
 
+#include "QDlgDebug.h"
+
+
 class QDlgDoit : public QMainWindow
 {
     Q_OBJECT
@@ -16,6 +19,9 @@ public:
     QDlgDoit(QWidget *parent = nullptr);
     ~QDlgDoit();
 
+
+	QDlgDebug* dlgDebug;
+	void showDlgDebug();
 
 private slots:
 	void updateFrame();
@@ -28,6 +34,6 @@ private:
 	QTimer* timer;
 
 
-private:
+public:
     Ui::QDlgDoitClass ui;
 };

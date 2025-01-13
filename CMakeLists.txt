@@ -13,11 +13,31 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(3rdParty_DIR "${PROJECT_SOURCE_DIR}/3rdParty/")
 
 #Qt路径
-set(CMAKE_PREFIX_PATH "D:/soft/dev/Qt/6.7.3/msvc2019_64")
+set(QT_PATH "")
+# 根据不同平台添加多个路径到 CMAKE_PREFIX_PATH
+if(WIN32)
+    # Windows 平台的多个路径
+    set(QT_PATH "D:/soft/dev/Qt/6.7.3/msvc2019_64")
+    set(CMAKE_PREFIX_PATH "${QT_PATH};;" CACHE PATH "Paths to search for libraries on Windows")
+elseif(APPLE)
+    # macOS 平台的多个路径
+    set(QT_PATH "D:/soft/dev/Qt/6.7.3/msvc2019_64")
+    set(CMAKE_PREFIX_PATH "${QT_PATH}::" CACHE PATH "Paths to search for libraries on macOS")
+elseif(LINUX)
+    # Linux 平台的多个路径
+    set(QT_PATH "D:/soft/dev/Qt/6.7.3/msvc2019_64")
+    set(CMAKE_PREFIX_PATH "${QT_PATH}::" CACHE PATH "Paths to search for libraries on Linux")
+endif()
 MESSAGE(STATUS "CMAKE_PREFIX_PATH ${CMAKE_PREFIX_PATH}")
+set(CMAKE_PREFIX_PATH "D:/soft/dev/Qt/6.7.3/msvc2019_64")
+
 
 #nlohmann json
 include_directories("${3rdParty_DIR}/nlohmann-3.11.3")
+
+#spdlog
+include_directories("${3rdParty_DIR}/spdlog-1.15.0")
+
 
 #zstd
 include_directories("${3rdParty_DIR}/zstd-v1.5.6/include")
@@ -79,12 +99,18 @@ source_group("Algo" FILES ${ALGO_SRC_FILES} ${ALGO_H_FILES})
 source_group("Net" FILES ${NET_SRC_FILES} ${NET_H_FILES})
 
 
+# 设置可执行文件的输出目录为 bin
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/bin)
+
 
 add_executable(${PROJECT_NAME} WIN32 ${SRC_FILES} ${H_FILES} 
     ${ALGO_SRC_FILES} ${ALGO_H_FILES} 
     ${NET_SRC_FILES} ${NET_H_FILES} 
     ${UTILS_SRC_FILES} ${UTILS_H_FILES} 
     ${RCC_FILES} ${WRAP_FILES})
+
+
+
 
 # 设置链接器选项，排除冲突的库
 #set_target_properties(${PROJECT_NAME} PROPERTIES LINK_FLAGS "/NODEFAULTLIB:MSVCRT")
@@ -124,3 +150,11 @@ if(WIN32)
         set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT ${PROJECT_NAME})
     endif(MSVC)
 endif()
+
+
+
+# Windows 平台下的部署
+    set(DEPLOY_COMMAND "${QT_PATH}/bin/windeployqt.exe")
+    add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+        COMMAND ${DEPLOY_COMMAND} $<TARGET_FILE:${PROJECT_NAME}>
+    )

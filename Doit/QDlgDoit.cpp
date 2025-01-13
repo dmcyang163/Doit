@@ -6,6 +6,7 @@ QDlgDoit::QDlgDoit(QWidget *parent)
     : QMainWindow(parent)
 {
     ui.setupUi(this);
+	//showDlgDebug();
 
 
 	// 加载预训练的 SSD 人脸检测模型
@@ -30,11 +31,20 @@ QDlgDoit::QDlgDoit(QWidget *parent)
 	{
 		qDebug() << "Error: Cannot open the camera.";
 	}
+
+
 }
 
 QDlgDoit::~QDlgDoit()
 {
 	cap.release();
+}
+
+void QDlgDoit::showDlgDebug()
+{
+	dlgDebug = new QDlgDebug(this);
+	//dlgDebug->setModal(true);
+	dlgDebug->show();
 }
 
 void QDlgDoit::updateFrame()
