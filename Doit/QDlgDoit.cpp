@@ -7,7 +7,7 @@ QDlgDoit::QDlgDoit(QWidget *parent)
 {
     ui.setupUi(this);
 	
-	//showDebugDlg();
+	showDebugDlg();
 
 
 	// 加载预训练的 SSD 人脸检测模型

@@ -18,8 +18,8 @@ int main(int argc, char *argv[])
     // 测试输出
     std::cout << "This is a test message from std::cout" << std::endl;
     std::cerr << "This is an error message from std::cerr" << std::endl;
-    std::cout << "Another message from std::cout" << std::endl;
-    std::cerr << "Another error message from std::cerr" << std::endl;
+
+#if 0
 
 
     CZip zip;
@@ -42,7 +42,8 @@ int main(int argc, char *argv[])
 
 
     // 等待一段时间，确保消息传输完成
-    std::this_thread::sleep_for(std::chrono::seconds(10));
+    std::this_thread::sleep_for(std::chrono::seconds(5));
 
+#endif
     return a.exec();
 }
