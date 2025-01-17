@@ -7,7 +7,7 @@
 #include <iostream>
 #include <sstream>
 
-
+#include "CTickCounter.h"
 
 int main(int argc, char *argv[])
 {
@@ -18,6 +18,12 @@ int main(int argc, char *argv[])
     // 测试输出
     std::cout << "This is a test message from std::cout" << std::endl;
     std::cerr << "This is an error message from std::cerr" << std::endl;
+
+    {
+        CTickCounter tc;
+        w.calculate();
+    }
+
 
 #if 0
 

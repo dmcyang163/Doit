@@ -69,6 +69,7 @@ include_directories(${OpenCV_INCLUDE_DIRS})
 
 #inc
 include_directories("${PROJECT_SOURCE_DIR}/utils" "${PROJECT_SOURCE_DIR}/algo" "${PROJECT_SOURCE_DIR}/net")
+include_directories("${3rdParty_DIR}/eigen-3.4.0/include/eigen3")
 
 
 set(CMAKE_AUTOMOC ON)
@@ -91,6 +92,8 @@ file(GLOB UI_FILES "./${PROJECT_NAME}/*.ui")
 
 #Ui文件生成对应的头文件
 qt6_wrap_ui(WRAP_FILES ${UI_FILES})
+include_directories("${PROJECT_NAME}/build/include")
+
 #ui文件和生成文件整理在一个文件夹中
 source_group("Ui" FILES ${UI_FILES})
 source_group("Ui_" FILES ${WRAP_FILES})
@@ -103,7 +106,7 @@ source_group("Net" FILES ${NET_SRC_FILES} ${NET_H_FILES})
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/bin)
 
 
-add_executable(${PROJECT_NAME} WIN32 ${SRC_FILES} ${H_FILES} ${UI_FILES}
+add_executable(${PROJECT_NAME} WIN32 ${SRC_FILES} ${H_FILES}
     ${ALGO_SRC_FILES} ${ALGO_H_FILES} 
     ${NET_SRC_FILES} ${NET_H_FILES} 
     ${UTILS_SRC_FILES} ${UTILS_H_FILES} 

@@ -9,7 +9,7 @@
 #include <QTimer>
 
 #include "QDlgDebug.h"
-
+#include <Eigen/Dense>
 
 class QDlgDoit : public QMainWindow
 {
@@ -22,6 +22,8 @@ public:
 
 	QDlgDebug* m_dlgDebug;
 	void showDebugDlg();
+
+	void calculate();
 
 private slots:
 	void updateFrame();

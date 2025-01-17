@@ -1,6 +1,9 @@
 ﻿#include "CTickCounter.h"
 #include <QDebug>
 #include <QString>
+#include <iostream>
+
+
 
 CTickCounter::CTickCounter()
 {
@@ -14,6 +17,6 @@ CTickCounter::~CTickCounter()
 	auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - begin);
 
 	
-	qDebug() << QString::number(duration.count());
-	//std::cout << "执行时间: " << duration.count() << " ms" << std::endl;
+	//qDebug() << QString::number(duration.count());
+	std::cout << "执行时间: " << duration.count() << " ms" << std::endl;
 }

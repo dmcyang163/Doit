@@ -26,7 +26,7 @@ protected:
 private:
 	QTextEdit* m_textEdit;
 	std::string m_buffer;
-	const std::size_t m_bufferSize = 1024;
+	const std::size_t m_bufferSize = 128;
 	void flushBuffer();
 };
 

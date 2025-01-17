@@ -1,6 +1,7 @@
 from cachetools import cached, LRUCache
-import numpy as np
 from numba import jit
+import numpy as np
+
 import timeit
 
 
