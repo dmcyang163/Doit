@@ -20,8 +20,8 @@ public:
     ~QDlgDoit();
 
 
-	QDlgDebug* dlgDebug;
-	void showDlgDebug();
+	QDlgDebug* m_dlgDebug;
+	void showDebugDlg();
 
 private slots:
 	void updateFrame();

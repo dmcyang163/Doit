@@ -6,11 +6,12 @@ QDlgDoit::QDlgDoit(QWidget *parent)
     : QMainWindow(parent)
 {
     ui.setupUi(this);
-	//showDlgDebug();
+	
+	//showDebugDlg();
 
 
 	// 加载预训练的 SSD 人脸检测模型
-	std::string path = "D:/young/qts/Doit/algo/model/ssd/";
+	std::string path = "D:/young/Doit/algo/model/ssd/";
 	std::string prototxtPath = path + "deploy.prototxt";
 	std::string modelPath = path + "res10_300x300_ssd_iter_140000.caffemodel";
 	net = cv::dnn::readNetFromCaffe(prototxtPath, modelPath);
@@ -22,7 +23,7 @@ QDlgDoit::QDlgDoit(QWidget *parent)
 
 	timer = new QTimer(this);
 	connect(timer, &QTimer::timeout, this, &QDlgDoit::updateFrame);
-	//timer->start(40);
+	timer->start(40);
 
 
 	// 打开摄像头
@@ -40,12 +41,12 @@ QDlgDoit::~QDlgDoit()
 	cap.release();
 }
 
-void QDlgDoit::showDlgDebug()
+void QDlgDoit::showDebugDlg()
 {
-	dlgDebug = new QDlgDebug(this);
-	//dlgDebug->setModal(true);
-	dlgDebug->show();
+	m_dlgDebug = new QDlgDebug(this);
+	m_dlgDebug->show();
 }
+
 
 void QDlgDoit::updateFrame()
 {

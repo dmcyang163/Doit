@@ -7,26 +7,6 @@
 #include <iostream>
 #include <sstream>
 
-#include <QtWidgets/QTextEdit>
-#include <QTimer>
-
-class ConsoleOutput : public std::stringbuf {
-public:
-	ConsoleOutput(QTextEdit* textEdit) : m_textEdit(textEdit) {}
-
-
-	int sync() override {
-		m_textEdit->append(QString::fromStdString(str()));
-		str("");
-		return 0;
-	}
-
-
-private:
-	QTextEdit* m_textEdit;
-};
-
-
 
 
 int main(int argc, char *argv[])
@@ -35,10 +15,12 @@ int main(int argc, char *argv[])
     QDlgDoit w;
     w.show();
 
-	ConsoleOutput consoleOutput(w.ui.txtDebug);
-	std::cout.rdbuf(&consoleOutput);
-	std::cout << "This is a test output in custom text edit." << std::endl;
-    std::cerr.rdbuf(&consoleOutput);
+    // 测试输出
+    std::cout << "This is a test message from std::cout" << std::endl;
+    std::cerr << "This is an error message from std::cerr" << std::endl;
+    std::cout << "Another message from std::cout" << std::endl;
+    std::cerr << "Another error message from std::cerr" << std::endl;
+
 
     CZip zip;
     zip.test();

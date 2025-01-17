@@ -1,0 +1,9 @@
+Windows Registry Editor Version 5.00
+
+[HKEY_CLASSES_ROOT\Directory\shell\Open_PowerShell_Admin]
+@="Open in PowerShell (Admin)"
+"Extended"=""
+"HasLUAShield"=""
+
+[HKEY_CLASSES_ROOT\Directory\shell\Open_PowerShell_Admin\command]
+@="C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -NoLogo -NoProfile -Command Set-Location '%V' -Verb RunAs"
