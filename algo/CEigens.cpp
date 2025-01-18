@@ -1,6 +1,6 @@
 #include "CEigens.h"
 #include "CTickCounter.h"
-
+#include <iostream>
 
 
 CEigens::CEigens()
@@ -17,7 +17,19 @@ CEigens::~CEigens()
 }
 
 void CEigens::calculate() {
+#ifdef EIGEN_USE_BLAS
+	std::cout << "Eigen is using BLAS." << std::endl;
+#else
+	std::cout << "Eigen is not using BLAS." << std::endl;
+#endif
 
+
+
+
+	// 启用 Eigen 的多线程功能（可根据需要开启）
+#ifdef _OPENMP
+	std::cout << "Using OpenMP for parallelism." << std::endl;
+#endif
 	CTickCounter tc(__FUNCTION__);
 
 	// 计算矩阵点积（矩阵乘法）

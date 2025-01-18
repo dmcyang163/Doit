@@ -59,6 +59,19 @@ endif()
 
 
 
+# 设置 OpenBLAS 的安装路径
+# 添加 OpenBLAS 的安装前缀到 CMAKE_PREFIX_PATH
+list(APPEND CMAKE_PREFIX_PATH "${3rdParty_DIR}/OpenBLAS-0.3.29/lib/cmake/OpenBLAS")
+find_package(OpenBLAS REQUIRED)
+
+
+
+# 包含 Eigen 库
+# find_package(Eigen3 REQUIRED)
+# include_directories(${EIGEN3_INCLUDE_DIR})
+
+
+
 #opencv
 set(OpenCV_DIR "D:/soft/dev/opencv-4.10.0")
 find_package(OpenCV REQUIRED)
@@ -117,13 +130,13 @@ add_executable(${PROJECT_NAME} WIN32 ${SRC_FILES} ${H_FILES}
 
 
 
-
 # 设置链接器选项，排除冲突的库
 #set_target_properties(${PROJECT_NAME} PROPERTIES LINK_FLAGS "/NODEFAULTLIB:MSVCRT")
 
 target_link_libraries(${PROJECT_NAME} Qt6::Core Qt6::Gui Qt6::Widgets 
     ${OpenCV_LIBS} 
     OpenMP::OpenMP_CXX
+    OpenBLAS::OpenBLAS
     )
 
 

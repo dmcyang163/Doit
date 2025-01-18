@@ -54,8 +54,11 @@ compile_commands.json
 *_qmlcache.qrc
 
 
+/bin/
+/data/
 /build/
 /pys/.venv/
+/pys/__pycache__/
 *.exe
 # 不排除 3rdParty 目录及其内容
 !/3rdParty/
