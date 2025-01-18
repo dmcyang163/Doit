@@ -10,6 +10,13 @@ CTickCounter::CTickCounter()
 	begin = std::chrono::high_resolution_clock::now();
 }
 
+CTickCounter::CTickCounter(std::string str)
+{
+	this->str = str;
+	begin = std::chrono::high_resolution_clock::now();
+
+}
+
 CTickCounter::~CTickCounter()
 {
 	end = std::chrono::high_resolution_clock::now();
@@ -18,5 +25,5 @@ CTickCounter::~CTickCounter()
 
 	
 	//qDebug() << QString::number(duration.count());
-	std::cout << "执行时间: " << duration.count() << " ms" << std::endl;
+	std::cout << str << "执行时间: " << duration.count() << " ms" << std::endl;
 }

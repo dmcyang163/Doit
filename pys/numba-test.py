@@ -29,13 +29,13 @@ if __name__ == "__main__":
         numba_matrix_multiply(a, b)
 
     # 不使用 Numba 加速
-    time1 = timeit.timeit(lambda: np.dot(a, b), number=200)
+    time1 = timeit.timeit(lambda: np.dot(a, b), number=1)
     print(f"Without Numba: {time1}")
 
     # 使用 Numba 加速
-    time2 = timeit.timeit(lambda: numba_matrix_multiply(a, b), number=200)
+    time2 = timeit.timeit(lambda: numba_matrix_multiply(a, b), number=1)
     print(f"With Numba: {time2}")
 
     # 再次调用，查看性能提升
-    time3 = timeit.timeit(lambda: numba_matrix_multiply(a, b), number=200)
+    time3 = timeit.timeit(lambda: numba_matrix_multiply(a, b), number=1)
     print(f"With Numba (without compilation): {time3}")

@@ -1,5 +1,6 @@
 ﻿#include "QDlgDoit.h"
 #include "CTickCounter.h"
+#include "CEigens.h"
 
 
 QDlgDoit::QDlgDoit(QWidget *parent)
@@ -33,7 +34,6 @@ QDlgDoit::QDlgDoit(QWidget *parent)
 		qDebug() << "Error: Cannot open the camera.";
 	}
 
-
 }
 
 QDlgDoit::~QDlgDoit()
@@ -47,6 +47,12 @@ void QDlgDoit::showDebugDlg()
 	m_dlgDebug->show();
 }
 
+
+void QDlgDoit::test()
+{
+	CEigens eg;
+	eg.calculate();
+}
 
 void QDlgDoit::updateFrame()
 {
@@ -101,32 +107,4 @@ void QDlgDoit::updateFrame()
 	// 创建 QPixmap 并设置到 QLabel
 	QPixmap pixmap = QPixmap::fromImage(qImage);
 	ui.lblImg->setPixmap(pixmap);
-}
-
-void QDlgDoit::calculate() {
-	Eigen::MatrixXd matrix1 = Eigen::MatrixXd::Random(1000, 1000);
-	Eigen::MatrixXd matrix2 = Eigen::MatrixXd::Random(1000, 1000);
-
-
-	// 计算矩阵点积（矩阵乘法）
-	Eigen::MatrixXd dotProduct = matrix1 * matrix2;
-
-
-	// 计算 Frobenius 内积
-	double frobeniusInnerProduct = (matrix1.array() * matrix2.array()).sum();
-
-
-	// 使用 Eigen 的 IOFormat 将矩阵的部分元素转换为字符串
-	Eigen::IOFormat fmt(4, 0, ", ", "\n", "[", "]");
-	std::stringstream ss;
-	ss << dotProduct.block(0, 0, 5, 5).format(fmt);
-	std::string matrixStr = ss.str();
-
-
-	std::string result = "Top-left corner of the dot product matrix:\n" + matrixStr + "\n\n" + "Frobenius inner product: " + std::to_string(frobeniusInnerProduct);
-
-
-
-	std::cout << result << std::endl;
-	//m_textEdit->setText(QString::fromStdString(result));
 }

@@ -20,8 +20,8 @@ int main(int argc, char *argv[])
     std::cerr << "This is an error message from std::cerr" << std::endl;
 
     {
-        CTickCounter tc;
-        w.calculate();
+        
+        w.test();
     }
 
 

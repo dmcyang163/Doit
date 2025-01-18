@@ -65,7 +65,7 @@ find_package(OpenCV REQUIRED)
 # 包含 OpenCV 头文件目录
 include_directories(${OpenCV_INCLUDE_DIRS})
 
-
+find_package(OpenMP REQUIRED)
 
 #inc
 include_directories("${PROJECT_SOURCE_DIR}/utils" "${PROJECT_SOURCE_DIR}/algo" "${PROJECT_SOURCE_DIR}/net")
@@ -105,12 +105,15 @@ source_group("Net" FILES ${NET_SRC_FILES} ${NET_H_FILES})
 # 设置可执行文件的输出目录为 bin
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/bin)
 
+# 引入增强指令集配置模块
+include(SetEnhancedInstructionSets.cmake)
 
 add_executable(${PROJECT_NAME} WIN32 ${SRC_FILES} ${H_FILES}
     ${ALGO_SRC_FILES} ${ALGO_H_FILES} 
     ${NET_SRC_FILES} ${NET_H_FILES} 
     ${UTILS_SRC_FILES} ${UTILS_H_FILES} 
-    ${RCC_FILES} ${WRAP_FILES})
+    ${RCC_FILES} ${WRAP_FILES}
+    )
 
 
 
@@ -120,6 +123,7 @@ add_executable(${PROJECT_NAME} WIN32 ${SRC_FILES} ${H_FILES}
 
 target_link_libraries(${PROJECT_NAME} Qt6::Core Qt6::Gui Qt6::Widgets 
     ${OpenCV_LIBS} 
+    OpenMP::OpenMP_CXX
     )
 
 
@@ -154,7 +158,10 @@ if(WIN32)
     endif(MSVC)
 endif()
 
-
+if (MSVC)
+    # set MSVC utf-8 build
+    add_compile_options(/utf-8)
+endif ()
 
 # Windows 平台下的部署
     set(DEPLOY_COMMAND "${QT_PATH}/bin/windeployqt.exe")
