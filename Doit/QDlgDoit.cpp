@@ -1,7 +1,7 @@
-﻿#include "QDlgDoit.h"
+#include "QDlgDoit.h"
 #include "CTickCounter.h"
 #include "CEigens.h"
-
+#include <thread>
 
 QDlgDoit::QDlgDoit(QWidget *parent)
     : QMainWindow(parent)
@@ -51,7 +51,11 @@ void QDlgDoit::showDebugDlg()
 void QDlgDoit::test()
 {
 	CEigens eg;
-	eg.calculate();
+	std::thread t([&eg]() {
+		eg.calculate();
+		});
+	
+	t.detach();
 }
 
 void QDlgDoit::updateFrame()
