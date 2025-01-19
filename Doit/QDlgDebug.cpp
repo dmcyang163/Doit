@@ -13,7 +13,7 @@ QDlgDebug::QDlgDebug(QWidget* parent) : QDialog(parent) {
     connect(clearButton, &QPushButton::clicked, m_textEdit, &QTextEdit::clear);
     layout->addWidget(clearButton);
 
-    // ³õÊ¼»¯Á÷»º³åÇø
+    // åˆå§‹åŒ–æµç¼“å†²åŒº
     m_coutBuffer = nullptr;
     m_cerrBuffer = nullptr;
     m_coutOriginalBuffer = nullptr;

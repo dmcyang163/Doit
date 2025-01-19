@@ -45,8 +45,12 @@ void CEigens::calculate()
 
 
 	// 1.使用表达式模板进行矩阵乘法 fast
-	for (int i=0; i<100; ++i)
+	for (int i = 0; i < 100; ++i)
+	{
+		//Eigen::MatrixXd result = matrix1 * matrix2;
 		Eigen::MatrixXd result = (matrix1.array() * matrix2.array()).matrix();
+	}
+
 
 
 	// 2.分块计算矩阵乘法

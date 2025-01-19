@@ -8,6 +8,8 @@
 #include <sstream>
 
 #include "CTickCounter.h"
+#include "CFourierTransform.h"
+
 
 int main(int argc, char *argv[])
 {
@@ -22,6 +24,8 @@ int main(int argc, char *argv[])
     {
         
         w.test();
+		CFourierTransform fourierTransform("../data/resized.jpg");
+		fourierTransform.performTransform();
     }
 
 

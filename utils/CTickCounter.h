@@ -2,7 +2,7 @@
 
 #include <chrono>
 
-
+#define TIMEIT CTickCounter tc(__FUNCTION__);
 class CTickCounter
 {
 public:
