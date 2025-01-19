@@ -128,6 +128,15 @@ add_executable(${PROJECT_NAME} WIN32 ${SRC_FILES} ${H_FILES}
     ${RCC_FILES} ${WRAP_FILES}
     )
 
+# # 使用 /GL 全局优化
+# if(MSVC)
+#     target_compile_options(${PROJECT_NAME} PRIVATE /GL)
+#     set_target_properties(${PROJECT_NAME} PROPERTIES LINK_FLAGS "/LTCG")
+# endif()
+# # 使用 /fp:fast 浮点优化
+# if(MSVC)
+#     target_compile_options(${PROJECT_NAME} PRIVATE /fp:fast)
+# endif()
 
 
 # 设置链接器选项，排除冲突的库

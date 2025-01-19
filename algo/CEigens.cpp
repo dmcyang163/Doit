@@ -5,8 +5,8 @@
 
 CEigens::CEigens()
 {
-	matrix1 = Eigen::Matrix<double, 1000, 1000, Eigen::RowMajor>::Random();
-	matrix2 = Eigen::Matrix<double, 1000, 1000, Eigen::RowMajor>::Random();
+	//matrix1 = Eigen::Matrix<double, 1000, 1000, Eigen::RowMajor>::Random();
+	//matrix2 = Eigen::Matrix<double, 1000, 1000, Eigen::RowMajor>::Random();
 	//matrix1 = Eigen::MatrixXd::Random(1000, 1000);
 	//matrix2 = Eigen::MatrixXd::Random(1000, 1000);
 }
@@ -16,46 +16,54 @@ CEigens::~CEigens()
 
 }
 
-void CEigens::calculate() {
+void CEigens::calculate() 
+{
+
 #ifdef EIGEN_USE_BLAS
 	std::cout << "Eigen is using BLAS." << std::endl;
 #else
 	std::cout << "Eigen is not using BLAS." << std::endl;
 #endif
 
-
-
-
-	// ÆôÓÃ Eigen µÄ¶àÏß³Ì¹¦ÄÜ£¨¿É¸ù¾ÝÐèÒª¿ªÆô£©
+	// å¯ç”¨ Eigen çš„å¤šçº¿ç¨‹åŠŸèƒ½ï¼ˆå¯æ ¹æ®éœ€è¦å¼€å¯ï¼‰
 #ifdef _OPENMP
 	std::cout << "Using OpenMP for parallelism." << std::endl;
 #endif
+
+
+
+	// å¯ç”¨ Eigen çš„å¤šçº¿ç¨‹æ”¯æŒ
+	Eigen::initParallel();
+	// è®¾ç½®çº¿ç¨‹æ•°
+	Eigen::setNbThreads(12);
+
+	// å®šä¹‰ä¸¤ä¸ª 1000Ã—1000 çš„åŒç²¾åº¦çŸ©é˜µï¼Œä½¿ç”¨ Eigen::MatrixXd
+	Eigen::MatrixXd matrix1 = Eigen::MatrixXd::Random(1000, 1000);
+	Eigen::MatrixXd matrix2 = Eigen::MatrixXd::Random(1000, 1000);
+
 	CTickCounter tc(__FUNCTION__);
 
-	// ¼ÆËã¾ØÕóµã»ý£¨¾ØÕó³Ë·¨£©
-	//Eigen::MatrixXd dotProduct = matrix1 * matrix2;
-	// Ê¹ÓÃ·Ö¿éËã·¨½øÐÐ¾ØÕó³Ë·¨
-	Eigen::MatrixXd dotProduct = matrix1.block(0, 0, 1000, 1000) * matrix2.block(0, 0, 1000, 1000);
 
-#if 0
+	// 1.ä½¿ç”¨è¡¨è¾¾å¼æ¨¡æ¿è¿›è¡ŒçŸ©é˜µä¹˜æ³• fast
+	for (int i=0; i<100; ++i)
+		Eigen::MatrixXd result = (matrix1.array() * matrix2.array()).matrix();
 
 
-	// ¼ÆËã Frobenius ÄÚ»ý
-	double frobeniusInnerProduct = (matrix1.array() * matrix2.array()).sum();
+	// 2.åˆ†å—è®¡ç®—çŸ©é˜µä¹˜æ³•
+	//Eigen::MatrixXd result(1000, 1000);
+	//for (int i = 0; i < 1000; i += 100)
+	//{
+	//	for (int j = 0; j < 1000; j += 100)
+	//	{
+	//		result.block(i, j, 100, 100) = matrix1.block(i, 0, 100, 100) * matrix2.block(0, j, 100, 100);
+	//	}
+	//}
+
+	// 3.ä½¿ç”¨éƒ¨åˆ†æ±‚å€¼
+	//Eigen::MatrixXd result = (matrix1 * matrix2).eval();
+
+	// è¾“å‡ºç»“æžœçŸ©é˜µçš„ä¸€äº›ä¿¡æ¯ï¼ˆè¿™é‡Œä»…è¾“å‡ºçŸ©é˜µçš„ç»´åº¦ï¼‰
+	//std::cout << "ç»“æžœçŸ©é˜µçš„ç»´åº¦: " << result.rows() << " Ã— " << result.cols() << std::endl;
 
 
-	// Ê¹ÓÃ Eigen µÄ IOFormat ½«¾ØÕóµÄ²¿·ÖÔªËØ×ª»»Îª×Ö·û´®
-	Eigen::IOFormat fmt(4, 0, ", ", "\n", "[", "]");
-	std::stringstream ss;
-	ss << dotProduct.block(0, 0, 5, 5).format(fmt);
-	std::string matrixStr = ss.str();
-
-
-	std::string result = "Top-left corner of the dot product matrix:\n" + matrixStr + "\n\n" + "Frobenius inner product: " + std::to_string(frobeniusInnerProduct);
-
-
-
-	std::cout << result << std::endl;
-#endif	
-	//m_textEdit->setText(QString::fromStdString(result));
 }
