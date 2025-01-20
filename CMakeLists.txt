@@ -32,9 +32,6 @@ MESSAGE(STATUS "CMAKE_PREFIX_PATH ${CMAKE_PREFIX_PATH}")
 set(CMAKE_PREFIX_PATH "D:/soft/dev/Qt/6.7.3/msvc2019_64")
 
 
-#xsimd
-include_directories("${3rdParty_DIR}/xsimd-13.1.0/include")
-
 
 #nlohmann json
 include_directories("${3rdParty_DIR}/nlohmann-3.11.3")
