@@ -55,5 +55,7 @@ int main(int argc, char *argv[])
     std::this_thread::sleep_for(std::chrono::seconds(5));
 
 #endif
+	// 处理事件循环，确保 GUI 更新
+
     return a.exec();
 }

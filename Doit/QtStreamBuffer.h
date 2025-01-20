@@ -28,6 +28,8 @@ private:
 	std::string m_buffer;
 	const std::size_t m_bufferSize = 1;
 	void flushBuffer();
+
+	std::unique_ptr<std::mutex> m_mutex;
 };
 
 #endif // QTSTREAMBUFFER_H

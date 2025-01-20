@@ -2,7 +2,7 @@
 
 
 // QtStreamBuffer
-QtStreamBuffer::QtStreamBuffer(QTextEdit* textEdit) : m_textEdit(textEdit) {}
+QtStreamBuffer::QtStreamBuffer(QTextEdit* textEdit) : m_textEdit(textEdit), m_mutex(std::make_unique<std::mutex>()) {}
 
 
 QtStreamBuffer::~QtStreamBuffer() {
@@ -15,6 +15,7 @@ std::streambuf::int_type QtStreamBuffer::overflow(std::streambuf::int_type v) {
 	{
 		return std::streambuf::traits_type::eof();
 	}
+	std::lock_guard<std::mutex> lock(*m_mutex);
 	m_buffer.push_back(static_cast<char>(v));
 	if (m_buffer.size() >= m_bufferSize)
 	{
@@ -25,6 +26,7 @@ std::streambuf::int_type QtStreamBuffer::overflow(std::streambuf::int_type v) {
 
 
 std::streamsize QtStreamBuffer::xsputn(const char* s, std::streamsize n) {
+	std::lock_guard<std::mutex> lock(*m_mutex);
 	m_buffer.append(s, n);
 	if (m_buffer.size() >= m_bufferSize)
 	{
@@ -35,11 +37,16 @@ std::streamsize QtStreamBuffer::xsputn(const char* s, std::streamsize n) {
 
 
 void QtStreamBuffer::flushBuffer() {
-	if (!m_buffer.empty())
+	std::string bufferToFlush;
 	{
-		QMetaObject::invokeMethod(m_textEdit, [this]() {
-			m_textEdit->insertPlainText(QString::fromStdString(m_buffer));
-			m_buffer.clear();
-			}, Qt::QueuedConnection);
+		//std::lock_guard<std::mutex> lock(*m_mutex);
+		std::swap(bufferToFlush, m_buffer);
 	}
+	if (!bufferToFlush.empty())
+	{
+		QMetaObject::invokeMethod(m_textEdit, [this, bufferToFlush]() {
+			m_textEdit->insertPlainText(QString::fromStdString(bufferToFlush));
+				}, Qt::QueuedConnection);
+	}
+
 }

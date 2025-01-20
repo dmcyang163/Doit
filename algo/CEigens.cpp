@@ -43,14 +43,15 @@ void CEigens::calculate()
 
 	CTickCounter tc(__FUNCTION__);
 
-
+	Eigen::MatrixXd result;
 	// 1.使用表达式模板进行矩阵乘法 fast
 	for (int i = 0; i < 100; ++i)
 	{
 		//Eigen::MatrixXd result = matrix1 * matrix2;
-		Eigen::MatrixXd result = (matrix1.array() * matrix2.array()).matrix();
+		result.noalias() = (matrix1.array() * matrix2.array()).matrix();
 	}
 
+	std::cout << "C(0:9, 0) = \n" << result.col(0).head(10) << std::endl;
 
 
 	// 2.分块计算矩阵乘法

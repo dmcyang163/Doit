@@ -12,5 +12,6 @@ public:
 
 	//Eigen::MatrixXd matrix1, matrix2;
 	void calculate();
+
 };
 
