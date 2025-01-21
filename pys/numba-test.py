@@ -3,6 +3,7 @@ from numba import jit
 import numpy as np
 
 import timeit
+from loger import loger
 
 
 def array_to_bytes_key(*args):
@@ -10,7 +11,7 @@ def array_to_bytes_key(*args):
     arr = args[0]
     return arr.tobytes()
 
-
+@loger
 @cached(cache=LRUCache(maxsize=1024*1024*16), key=array_to_bytes_key)
 @jit(nopython=True, fastmath=False)
 def numba_matrix_multiply(a, b):
