@@ -59,6 +59,9 @@ compile_commands.json
 /build/
 /pys/.venv/
 /pys/__pycache__/
+/pys/build/
+/pys/dist/
+
 *.exe
 # 不排除 3rdParty 目录及其内容
 !/3rdParty/
